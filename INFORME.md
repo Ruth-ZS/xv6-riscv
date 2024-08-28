@@ -11,8 +11,8 @@ de RISC-V, que son necesarios para compilar y ejecutar xv6.
 - Instalé el toolchain con el comando: `brew tap riscv/riscv && brew 
 install riscv-tools`.
 - Cloné el repositorio con: `git clone 
-https://github.com/tu_usuario/xv6-riscv.git`.
-- Creé una nueva rama con: `git checkout -b ruth_zanabria`.
+https://github.com/Ruth-ZS/xv6-riscv.git`.
+- Creé una nueva rama con: `git checkout -b ruth_zanabria_t0`.
 - Compilé el proyecto con el comando: `make`.
 - Ejecuté el sistema con: `make qemu`.
 - Ejecuté algunos comandos para verificar la instalación:
