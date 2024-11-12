@@ -716,7 +716,8 @@ int munprotect(void *addr, int len) {
             return -1;  
         }
         *pte |= PTE_W;  
+    }
     sfence_vma();  
     return 0;
 }
-}
+
