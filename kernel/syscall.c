@@ -101,6 +101,8 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
+extern uint64 sys_mprotect(void);
+extern uint64 sys_munprotect(void);
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -126,6 +128,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_mprotect]    sys_mprotect,
+[SYS_munprotect]  sys_munprotect,
 };
 
 void
@@ -144,4 +148,32 @@ syscall(void)
             p->pid, p->name, num);
     p->trapframe->a0 = -1;
   }
+}
+
+//implementación de las funciones sys_mprotect y sys_munprotect
+
+uint64 sys_mprotect(void) {
+    uint64 addr;
+    int len;
+    
+    argaddr(0, &addr);
+    argint(1, &len);
+
+    if (len <= 0 || addr == 0)
+        return -1;
+
+    return mprotect((void *)addr, len);
+}
+
+uint64 sys_munprotect(void) {
+    uint64 addr;
+    int len;
+
+    argaddr(0, &addr);
+    argint(1, &len);
+
+    if (len <= 0 || addr == 0)
+        return -1;
+
+    return munprotect((void *)addr, len);
 }

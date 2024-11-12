@@ -693,3 +693,30 @@ procdump(void)
     printf("\n");
   }
 }
+int mprotect(void *addr, int len) {
+    struct proc *p = myproc();
+    uint64 va = (uint64) addr;
+    for (uint64 a = va; a < va + len; a += PGSIZE) {
+        pte_t *pte = walk(p->pagetable, a, 0);
+        if (pte == 0 || (*pte & PTE_V) == 0) {
+            return -1;  
+        }
+        *pte &= ~PTE_W;  
+    }
+    sfence_vma();  
+    return 0;
+}
+
+int munprotect(void *addr, int len) {
+    struct proc *p = myproc();
+    uint64 va = (uint64) addr;
+    for (uint64 a = va; a < va + len; a += PGSIZE) {
+        pte_t *pte = walk(p->pagetable, a, 0);
+        if (pte == 0 || (*pte & PTE_V) == 0) {
+            return -1;  
+        }
+        *pte |= PTE_W;  
+    sfence_vma();  
+    return 0;
+}
+}
